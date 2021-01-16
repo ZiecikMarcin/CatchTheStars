@@ -7,7 +7,7 @@
 
 sf::Vector2f viewSize(1024, 768);
 sf::VideoMode vm(viewSize.x, viewSize.y);
-sf::RenderWindow window(vm, "Catch the Clown!", sf::Style::Default);
+sf::RenderWindow window(vm, "Catch the Stars!", sf::Style::Default);
 
 sf::Music bgMusic;
 sf::SoundBuffer fireBuffer;
@@ -15,7 +15,7 @@ sf::SoundBuffer hitBuffer;
 sf::Sound fireSound(fireBuffer);
 sf::Sound hitSound(hitBuffer);
 
-void spawnPoints();
+
 void changeColor();
 bool checkCollision(sf::Sprite sprite1, sf::Sprite sprite2);
 void reset();
@@ -38,7 +38,6 @@ sf::Text livesText;
 
 Hero hero;
 std::vector<Enemy*> enemies;
-std::vector<Points*> points;
 
 float currentTime;
 float prevTime = 0.0f;
@@ -55,9 +54,9 @@ bool playerMoving = false;
 void init() {
 	// Audio
 	bgMusic.openFromFile("Assets/audio/bgmusic.ogg");
+	bgMusic.setLoop(true);
 	bgMusic.play();
 	hitBuffer.loadFromFile("Assets/audio/hit.wav");
-	fireBuffer.loadFromFile("Assets/audio/fire.wav");
 	//load texture
 	background.loadFromFile("Assets/graphics/background_0.png");
 	parallaxOne.loadFromFile("Assets/graphics/background_1.png");
@@ -128,11 +127,7 @@ void reset() {
 	for (Enemy *enemy : enemies) {
 		delete(enemy);
 	}
-	for (Points *point : points) {
-		delete(point);
-	}
 	enemies.clear();
-	points.clear();
 }
 
 void spawnPoints() {
@@ -242,7 +237,7 @@ void update(float dt) {
 	for (int j = 0; j < enemies.size(); j++) {
 		Enemy* enemy = enemies[j];
 		if (checkCollision(hero.getSprite(), enemy->getSprite())) {
-			//hitSound.play();
+			hitSound.play();
 			if (enemy->getSprite().getColor() == starsSprite.getColor()) {
 				score++;
 				std::string finalScore = "Score: " + std::to_string(score);
