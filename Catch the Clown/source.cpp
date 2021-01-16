@@ -262,7 +262,9 @@ void update(float dt) {
 }
 
 void draw() {
-	window.draw(backgroundSprite);
+	backgroundSprite.setPosition(-15 + hero.getSprite().getPosition().x*0.01, 0);
+	parallaxOneSprite.setPosition(-20 + hero.getSprite().getPosition().x*0.02, 0);
+	window.draw(backgroundSprite);	
 	window.draw(parallaxOneSprite);
 	window.draw(parallaxTwoSprite);
 	window.draw(starsSprite);
